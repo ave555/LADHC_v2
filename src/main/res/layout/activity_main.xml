@@ -56,7 +56,8 @@
                                 android:id="@+id/ediNombre"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Nombre contacto" />
+                                android:hint="Nombre contacto"
+                                android:onClick="initBusquedaContactos" />
 
                             <EditText
                                 android:id="@+id/ediTelefono"
@@ -71,14 +72,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
-
-                            <Button
-                                android:id="@+id/button2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="40dp"
-                                android:onClick="initBusquedaContactos"
-                                android:text="Buscar en contactos" />
 
                         </LinearLayout>
 
@@ -101,15 +94,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="10dp"
-                            android:onClick="onclickbtnAgregar"
+                            android:onClick="onclickbtnAgregarABD"
                             android:text="Agregar Contacto" />
 
-                        <Button
-                            android:id="@+id/button4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:onClick="listaon"
-                            android:text="Abrirlista " />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -138,6 +125,31 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <Button
+                        android:id="@+id/button7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="btbinculados"
+                        android:text="Conectar Bluetooth" />
+
+                    <Button
+                        android:id="@+id/button8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="DesconectarBt"
+                        android:text="Desconectar Bluetooth" />
+
+                    <Button
+                        android:id="@+id/button6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="prender"
+                        android:text="Prender led" />
+
+                    <ListView
+                        android:id="@+id/lista"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
