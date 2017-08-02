@@ -36,19 +36,24 @@ import ave.ladhc.util.TextChangedListener;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button conectar,desconectar,EnviarDatoColor;
+
     BroadcastReceiver miReceptor;
     IntentFilter intentFilter;
+    String NumeroEntrante;
+    String Colordellamada=null;
 
     public static final int PICK_CONTACT_REQUEST = 1 ;
     private Uri contactUri;
-    Spinner color;
+    Spinner color,enviarcolor;
     String datoscolor[]={"Escoje un color...","ROJO","VERDE","ROSA","PURPURA","AMARILLO","NARANJA","AZUL","AZUL CLARO"};
+    String datosenviarcolor[]={"Secuencia","ROJO","VERDE","ROSA","PURPURA","AMARILLO","NARANJA","AZUL","AZUL CLARO","BLANCO"};
     private ListView contactsListView;
     private EditText txtNombre,txtTelefono;
-    String txtColor;
+    String txtColor,txtenviarColor;
     private Button btnAgregar;
 
-    private IntentFilter myFilter;
+
 
     ArrayList<String> lista;
     ArrayAdapter adaptador;
@@ -64,82 +69,26 @@ public class MainActivity extends AppCompatActivity {
     private boolean isBtConnected = false;
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-       //´´ myFilter = new IntentFilter();
-        //´´myFilter.addAction("android.intent.action.MAIN");
-
-
         miReceptor=new MiBroadCastReceiver();
-       intentFilter=new IntentFilter("android.intent.action.MAIN");
+        intentFilter=new IntentFilter("MI_ESPECIFICA_ACTION");
 
         inicializarComponenentes();
-        //inicializarLista();
         inicializarTabs();
-        ArrayAdapter<String> frutaadaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, datoscolor);
-        color.setAdapter(frutaadaptador);
+        ArrayAdapter<String> coloradaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, datoscolor);
+        color.setAdapter(coloradaptador);
+        ArrayAdapter<String> enviarcoloradaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, datosenviarcolor);
+        enviarcolor.setAdapter(enviarcoloradaptador);
         inicializaColores();
-
-
-
-
+        inicializaEnviarColores();
         }
 
-
-
-
-
-   /* private BroadcastReceiver myReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String myParam = intent.getExtras().getString("numero");
-            if (myParam != null) {
-                //Aquí ejecutais el método que necesiteis, por ejemplo actualizar //el número de notificaciones recibidas
-                Toast.makeText(context, "Call from: " + myParam + " ", Toast.LENGTH_LONG).show();
-            }
-        }
-    };
-
-    @Override
-    protected void onPause() {
-        unregisterReceiver(myReceiver);
-        super.onPause();
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(myReceiver, myFilter);
-    }*/
-
-
-
-     @Override
-        public void onResume(){
-            super.onResume();
-            registerReceiver(miReceptor,intentFilter);
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-
-        unregisterReceiver(miReceptor);
-    }
-
-    public class MiBroadCastReceiver extends BroadcastReceiver{
-        @Override
-        public void onReceive(Context context, Intent i){
-           Toast.makeText(context,"Recibiendo, " +
-                   "valor reibido: " + i.getStringExtra("numero"),Toast.LENGTH_LONG).show();
-
-        }
-    }
 
     private void inicializarTabs() {
         TabHost tabHost=(TabHost) findViewById(R.id.tabHost);
@@ -160,15 +109,16 @@ public class MainActivity extends AppCompatActivity {
         tabHost.addTab(spec);
 
     }
-
     private void inicializarComponenentes() {
         txtNombre=(EditText) findViewById(R.id.ediNombre);
         txtTelefono=(EditText) findViewById(R.id.ediTelefono);
         contactsListView=(ListView) findViewById(R.id.listView);
         color=(Spinner)findViewById(R.id.spinnercolor);
+        enviarcolor=(Spinner)findViewById(R.id.spinnerEnviarDato);
         listaDispositivos = (ListView) findViewById(R.id.lista);
-
-
+        conectar=(Button) findViewById(R.id.button7);
+        desconectar=(Button) findViewById(R.id.button8);
+        EnviarDatoColor=(Button) findViewById(R.id.EnviarDatoColor);
         txtNombre.addTextChangedListener(new TextChangedListener(){
             @Override//este metodo se va ejcutar cada que el usuario escriba algo
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -178,30 +128,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     private void inicializaColores() {
         color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch(position)
                 {
-                    case 0:txtColor="     General";
+                    case 0:txtColor="General";
                         break;
-                    case 1:txtColor="     Rojo";
+                    case 1:txtColor="Rojo";
                         break;
-                    case 2:txtColor="     Verde";
+                    case 2:txtColor="Verde";
                         break;
-                    case 3:txtColor="     Rosa";
+                    case 3:txtColor="Rosa";
                         break;
-                    case 4:txtColor="     Purpura";
+                    case 4:txtColor="Purpura";
                         break;
-                    case 5:txtColor="     Amarillo";
+                    case 5:txtColor="Amarillo";
                         break;
-                    case 6:txtColor="     Naranja";
+                    case 6:txtColor="Naranja";
                         break;
-                    case 7:txtColor="     Azul";
+                    case 7:txtColor="Azul";
                         break;
-                    case 8:txtColor="     Azul Claro ";
+                    case 8:txtColor="Azul Claro ";
                         break;
                 }
 
@@ -213,6 +162,56 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void inicializaEnviarColores() {
+        enviarcolor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position)
+                {
+                    case 0:txtenviarColor="Secuencia";
+                        break;
+                    case 1:txtenviarColor="Rojo";
+                        break;
+                    case 2:txtenviarColor="Verde";
+                        break;
+                    case 3:txtenviarColor="Rosa";
+                        break;
+                    case 4:txtenviarColor="Purpura";
+                        break;
+                    case 5:txtenviarColor="Amarillo";
+                        break;
+                    case 6:txtenviarColor="Naranja";
+                        break;
+                    case 7:txtenviarColor="Azul";
+                        break;
+                    case 8:txtenviarColor="AzulClaro";
+                        break;
+                    case 9:txtenviarColor="Blanco";
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    public void enviardatoColor(View view){
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write(txtenviarColor.toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+    /////////////////////////////////////Contactos///////////////////////////
     public void initBusquedaContactos(View v){
 
         /*
@@ -226,8 +225,6 @@ public class MainActivity extends AppCompatActivity {
          */
         startActivityForResult(i, PICK_CONTACT_REQUEST);
     }  //busqueda de contactos
-
-
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == PICK_CONTACT_REQUEST) {
             if (resultCode == RESULT_OK) {
@@ -235,15 +232,14 @@ public class MainActivity extends AppCompatActivity {
                 renderContact(contactUri);
             }
         }
-    }//revisar resultados de contacto
-
+    }
+    //revisar resultados de contacto
     private void renderContact(Uri uri) {
        // Obtener instancias de los Views
 
         txtNombre.setText(getName(uri));
         txtTelefono.setText(getPhone(uri));
     }       //guardar nombre  y telefono
-
     private String getPhone(Uri uri) {
         /*
         Variables temporales para el id y el teléfono
@@ -295,7 +291,6 @@ public class MainActivity extends AppCompatActivity {
 
         return phone;
     }         //obtenemos telefono
-
     private String getName(Uri uri) {
 
         /*
@@ -329,7 +324,6 @@ public class MainActivity extends AppCompatActivity {
 
         return name;
     }          //ontenemos nombre
-
     public void onclickbtnAgregarABD(View view) {
 
 
@@ -338,15 +332,12 @@ public class MainActivity extends AppCompatActivity {
             BD db= new BD(getApplicationContext(),null,null,1);
             String noombre = txtNombre.getText().toString();
             String teelefono = txtTelefono.getText().toString();
+            teelefono=teelefono.replaceAll(" ", "");
             String coolores=txtColor;
             String mensaje = db.guardar(noombre,teelefono,coolores);
             Toast.makeText(getApplicationContext(),mensaje,Toast.LENGTH_SHORT).show();
 
         }
-
-
-
-
 
 
 
@@ -366,22 +357,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
     private void limpiarCampos() {
         txtNombre.getText().clear();
         txtTelefono.getText().clear();
         txtColor="";
         txtNombre.requestFocus();
     }
-
-
-
-    //prender bluetooth/////////////////////////////////////////////////////////////////////
-
-
-
-    private void msg(String s)
-    {
+    /////////////////////////////////////Contactos///////////////////////////
+    /////////////////////////////////////Bluetooth//////////////////////////
+    private void msg(String s) {
         Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
     }
     public void btbinculados(View view) {
@@ -406,7 +390,6 @@ public class MainActivity extends AppCompatActivity {
         //al selecionar btnVinculado se mostra los dispositivos vinculado
         listaDispositivosvinculados();
     }
-
     private void listaDispositivosvinculados() {
 
         dispVinculados = myBluetooth.getBondedDevices();  //Devuelve el conjunto de objetos BluetoothDevice que están enlazados (emparejados) al adaptador local.
@@ -432,9 +415,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-    private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener()
-    {
+    private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener() {
         //Método de devolución de llamada a invocarse cuando se ha hecho clic en un elemento de este AdapterView.
         //(AdapterView<?> parent, View view, int position, long id)
         public void onItemClick (AdapterView<?> av,//el AdapterView donde ocurrió el clic.
@@ -447,38 +428,9 @@ public class MainActivity extends AppCompatActivity {
             address = info.substring(info.length() - 17);
             new ConnectBT().execute(); //Llamar a la clase para conectarse
         }
-    };
+        };
 
-    public void DesconectarBt(View view) {
-        if (btSocket!=null)
-        {
-            try
-            {
-                btSocket.close();
-            }
-            catch (IOException e)
-            { msg("Error");}
-        }
-        Toast.makeText(getApplicationContext(), "Bluetooth Desconectado", Toast.LENGTH_LONG).show();
-        //finish();
-    }
-
-    public void prender(View view) {
-        if (btSocket!=null)
-        {
-            try
-            {
-                btSocket.getOutputStream().write("led2".toString().getBytes());
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
-        }
-    }
-
-    private class ConnectBT extends AsyncTask<Void, Void, Void>  // UI thread
-    {
+    private class ConnectBT extends AsyncTask<Void, Void, Void>  {// UI thread
         private boolean ConnectSuccess = true;
 
         @Override
@@ -521,13 +473,81 @@ public class MainActivity extends AppCompatActivity {
             {
                 msg("Conectado");
                 isBtConnected = true;
+                conectar.setEnabled(false);
+                desconectar.setEnabled(true);
+                EnviarDatoColor.setEnabled(true);
+
             }
             progress.dismiss();
         }
     }
+    public void DesconectarBt(View view) {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.close();
+            }
+            catch (IOException e)
+            { msg("Error");}
+        }
+        Toast.makeText(getApplicationContext(), "Bluetooth Desconectado", Toast.LENGTH_LONG).show();
+        //finish();
+        conectar.setEnabled(true);
+        desconectar.setEnabled(false);
+        EnviarDatoColor.setEnabled(false);
+    }
+    ////////////////////////////////////////Bbluetooth////////////////////////
+/////////////////////////////////////////////Datos////////////////////////////
+    @Override
+    public void onResume(){
+    super.onResume();
+    registerReceiver(miReceptor,intentFilter);
+
+         /*@Override
+    public void onPause(){
+        super.onPause();
+
+        unregisterReceiver(miReceptor);
+    }*/
+
+}
+    public class MiBroadCastReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent i){
 
 
+            NumeroEntrante= i.getExtras().getString("numero");
+            if (NumeroEntrante != null) {
+                Toast.makeText(context,"numero entrante " + NumeroEntrante,Toast.LENGTH_LONG).show();
+                buscarnuemroenbd();
+                enviardato();
+            }
 
+        }
+    }//reciviendo numero de llamada
+    private void buscarnuemroenbd(){
+        BD db= new BD(getApplicationContext(),null,null,1);
+        String buscar=NumeroEntrante;
+        String[] datos;
+        datos=db.buscar_reg(buscar);
+        Colordellamada=(datos[2]);
+        Toast.makeText(getApplicationContext(),datos[3],Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),"color " + Colordellamada,Toast.LENGTH_SHORT).show();
 
-
+    }
+    private void enviardato(){
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write(Colordellamada.toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+//////////////////////////////////////////////Datos///////////////////////////
 }

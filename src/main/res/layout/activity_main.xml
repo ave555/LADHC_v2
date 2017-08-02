@@ -39,7 +39,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
@@ -49,13 +49,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="20dp"
                                 android:text="Ingresar contactos"
-                                android:textColor="@android:color/background_dark"
-                                android:textSize="24sp" />
+                                android:textSize="18sp" />
 
                             <EditText
                                 android:id="@+id/ediNombre"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
                                 android:hint="Nombre contacto"
                                 android:onClick="initBusquedaContactos" />
 
@@ -63,15 +63,8 @@
                                 android:id="@+id/ediTelefono"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="15dp"
+                                android:layout_marginTop="20dp"
                                 android:hint="Teléfono" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
 
                         </LinearLayout>
 
@@ -80,20 +73,21 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:weightSum="1">
 
                         <Spinner
                             android:id="@+id/spinnercolor"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp" />
+                            android:layout_marginTop="20dp"
+                            android:layout_weight="0.10" />
 
                         <Button
                             android:id="@+id/btnAgregar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="50dp"
                             android:onClick="onclickbtnAgregarABD"
                             android:text="Agregar Contacto" />
 
@@ -111,7 +105,8 @@
                         android:id="@+id/textView6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Lista de contactos" />
+                        android:text="Lista de contactos"
+                        android:textSize="18sp" />
 
                     <ListView
                         android:id="@+id/listView"
@@ -125,33 +120,97 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/button7"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="btbinculados"
-                        android:text="Conectar Bluetooth" />
+                        android:layout_height="183dp"
+                        android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/button8"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="DesconectarBt"
-                        android:text="Desconectar Bluetooth" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/button6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="prender"
-                        android:text="Prender led" />
+                            <TextView
+                                android:id="@+id/textView3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:text="Conectar Bluetooth"
+                                android:textSize="14sp" />
 
-                    <ListView
-                        android:id="@+id/lista"
+                            <Button
+                                android:id="@+id/button7"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.03"
+                                android:onClick="btbinculados"
+                                android:text="Conectar BT" />
+
+                            <Button
+                                android:id="@+id/button8"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.04"
+                                android:onClick="DesconectarBt"
+                                android:text="Desconectar BT" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:text="Dispositivos pareados" />
+
+                            <ListView
+                                android:id="@+id/lista"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="20dp"
+                                android:layout_weight="1" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="Dato a enviar "
+                            android:textSize="18sp" />
+
+                        <Spinner
+                            android:id="@+id/spinnerEnviarDato"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="0.07" />
+
+                        <Button
+                            android:id="@+id/EnviarDatoColor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:onClick="enviardatoColor"
+                            android:text="Enviar dato" />
+                    </LinearLayout>
+
                 </LinearLayout>
+
             </FrameLayout>
+
         </LinearLayout>
     </TabHost>
 

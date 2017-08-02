@@ -53,7 +53,7 @@ public class BD extends SQLiteOpenHelper{
     public String[] buscar_reg(String buscar){
         String[] datos=new String[4];
         SQLiteDatabase database= this.getWritableDatabase();
-        String q= "SELECT * FROM datos WHERE nombre='"+buscar+"'";
+        String q= "SELECT * FROM datos WHERE telefono='"+buscar+"'";
         Cursor registros = database.rawQuery(q,null);
         if(registros.moveToFirst()){
             for(int i=0;i<3;i++){
